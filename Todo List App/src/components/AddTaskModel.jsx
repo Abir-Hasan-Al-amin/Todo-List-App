@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { IoClose } from "react-icons/io5";
 export default function AddTaskModal({ onAddTask, onCancel }) {
   const [newTask, setNewTask] = useState("");
-  const [priority, setPriority] = useState("low");
+  const [priority, setPriority] = useState("Low");
   const handleAddTask = () => {
     if (newTask.trim() !== "") {
       onAddTask({
@@ -40,31 +40,31 @@ export default function AddTaskModal({ onAddTask, onCancel }) {
             <ul className="flex gap-1 font-semibold">
               <li
                 className={`w-24 text-center border border-green-400 p-2 px-3 rounded-md cursor-pointer ${
-                  priority === "low"
+                  priority === "Low"
                     ? " bg-green-400 text-white"
                     : " text-green-400"
                 }`}
-                onClick={() => setPriority("low")}
+                onClick={() => setPriority("Low")}
               >
                 Low
               </li>
               <li
                 className={`w-24 text-center border border-yellow-500 p-2 px-3 rounded-md cursor-pointer ${
-                  priority === "medium"
+                  priority === "Medium"
                     ? " bg-yellow-500 text-white"
                     : " text-yellow-500"
                 }`}
-                onClick={() => setPriority("medium")}
+                onClick={() => setPriority("Medium")}
               >
                 Medium
               </li>
               <li
-                className={`w-24 text-center border border-red-600 p-2 px-3 rounded-md cursor-pointer ${
-                  priority === "high"
+                className={`w-24 text-center border border-red-500 p-2 px-3 rounded-md cursor-pointer ${
+                  priority === "High"
                     ? "bg-red-500 text-white"
-                    : " text-red-600"
+                    : " text-red-500"
                 }`}
-                onClick={() => setPriority("high")}
+                onClick={() => setPriority("High")}
               >
                 High
               </li>
