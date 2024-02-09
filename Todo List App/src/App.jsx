@@ -11,6 +11,8 @@ function App() {
   const [delModal, setDelModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [filterPriority, setFilterPriority] = useState('All');
+  const [newEditTask, setNewEditTask] = useState(null);
+  const [newDeleteTask,setNewDeleteTask]=useState(null);
   // local storage setup
   useEffect(() => {
     try {
@@ -77,8 +79,12 @@ function App() {
           />
         )}
       </div>
+      <div  className="flex w-5/6 lg:w-4/6 mt-12 justify-between">
+          <h1>Total Tasks:{tasks.length}</h1>
+          <h1>Completed Task:{tasks.filter(task => task.completed).length}</h1>
+      </div>
       <div className="flex flex-col lg:flex-row w-5/6 lg:w-4/6 mt-12 justify-center items-center gap-6">
-        <label className="text-xl font-semibold text-neutral-600">Filter by Priority:</label>
+        <h1 className="text-xl font-semibold text-neutral-600">Filter by Priority:</h1>
         <div>
             <ul className="flex justify-center gap-8 flex-wrap md:gap-2 font-semibold">
               <li
@@ -126,7 +132,7 @@ function App() {
   </div>
       {tasks.filter((task) =>filterPriority === 'All' ? true : task.priority === filterPriority).map((task) => (
         <div
-          className={`${task.completed=== true?" bg-green-100":" bg-white"} bg-white  rounded-2xl p-6 flex w-5/6 lg:w-4/6 mt-12 gap-4 lg:gap-0 lg:justify-between lg:items-center flex-col lg:flex-row`}
+          className={`${task.completed === true ? " bg-green-100":" bg-white"}  rounded-2xl p-6 flex w-5/6 lg:w-4/6 mt-12 gap-4 lg:gap-0 lg:justify-between lg:items-center flex-col lg:flex-row`}
           key={task.id}
         >
           <div className="flex items-center gap-4">
@@ -158,24 +164,24 @@ function App() {
             </p>
           </div>
           <div className="flex gap-4">
-            <button className=" text-green-500" onClick={() => setEditModal(true)}>
+            <button className=" text-green-500" onClick={() =>{ setEditModal(true); setNewEditTask(task)}}>
               <BiEdit size={26} />
             </button>
             {editModal && (
                   <EditTaskModal
                     onEditTask={editTask}
-                    onCancel={() => setEditModal(false)}
-                    task={task}
+                    onCancel={() => {setEditModal(false); setNewEditTask(null)}}
+                    task={newEditTask}
                   />
                 )}
-            <button className=" text-red-500" onClick={() => setDelModal(true)}>
+            <button className=" text-red-500" onClick={() => {setDelModal(true);setNewDeleteTask(task.id)}}>
               <FaTrashCan size={22} />
             </button>
             {delModal && (
               <DeleteTaskModal
                 onDelTask={deleteTask}
-                onCancel={() => setDelModal(false)}
-                id={task.id}
+                onCancel={() => {setDelModal(false);setNewDeleteTask(null)}}
+                id={newDeleteTask}
               />
             )}
           </div>
