@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import AddTaskModal from "./components/AddTaskModel";
+import DeleteTaskModal from "./components/DeleteTaskModal";
 import { IoMdAdd, IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { BiEdit } from "react-icons/bi";
 import { FaTrashCan } from "react-icons/fa6";
 function App() {
   const [tasks, setTasks] = useState([]);
   const [showAddModal, setShowAddModal] = useState(false);
-
+  const [delModal, setDelModal] = useState(false);
   // local storage setup
   useEffect(() => {
     try {
@@ -35,6 +36,10 @@ function App() {
     setShowAddModal(false);
   };
 
+  const deleteTask = (id) => {
+    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
+    setDelModal(false);
+  };
   return (
     <div className=" bg-[#F0F2F5] flex flex-col items-center w-screen min-h-screen">
       <div className="flex w-5/6 lg:w-4/6 mt-12 justify-between">
@@ -55,7 +60,10 @@ function App() {
         )}
       </div>
       {tasks.map((task) => (
-        <div className=" bg-white  rounded-2xl p-6 flex w-5/6 lg:w-4/6 mt-12 gap-4 lg:gap-0 lg:justify-between lg:items-center flex-col lg:flex-row" key={task.id}>
+        <div
+          className=" bg-white  rounded-2xl p-6 flex w-5/6 lg:w-4/6 mt-12 gap-4 lg:gap-0 lg:justify-between lg:items-center flex-col lg:flex-row"
+          key={task.id}
+        >
           <div className="flex items-center gap-4">
             <button className=" text-neutral-600">
               <IoMdCheckmarkCircleOutline size={26} />
@@ -66,9 +74,7 @@ function App() {
           </div>
           <div>
             <h1 className=" text-neutral-600">Task</h1>
-            <p className=" text-lg font-semibold lg:w-[350px]">
-              {task.text}
-            </p>
+            <p className=" text-lg font-semibold lg:w-[350px]">{task.text}</p>
           </div>
           <div>
             <h1 className=" text-neutral-600">Priority</h1>
@@ -90,9 +96,16 @@ function App() {
             <button className=" text-green-500">
               <BiEdit size={26} />
             </button>
-            <button className=" text-red-500">
+            <button className=" text-red-500" onClick={() => setDelModal(true)}>
               <FaTrashCan size={22} />
             </button>
+            {delModal && (
+              <DeleteTaskModal
+                onDelTask={deleteTask}
+                onCancel={() => setDelModal(false)}
+                id={task.id}
+              />
+            )}
           </div>
         </div>
       ))}
