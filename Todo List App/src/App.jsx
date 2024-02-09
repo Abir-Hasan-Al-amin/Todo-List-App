@@ -49,6 +49,14 @@ function App() {
     );
     setEditModal(false);
   };
+
+  const toggle = (id) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.id === id ? { ...task, completed: !task.completed } : task
+      )
+    );
+  };
   return (
     <div className=" bg-[#F0F2F5] flex flex-col items-center w-screen min-h-screen">
       <div className="flex w-5/6 lg:w-4/6 mt-12 justify-between">
@@ -57,7 +65,6 @@ function App() {
           className=" flex items-center gap-1 md:gap-3 text-white bg-[#713FFF]  md:text-lg rounded-lg px-3 md:px-6 py-2 font-bold shadow-md"
           onClick={() => setShowAddModal(true)}
         >
-          {" "}
           <IoMdAdd size={22} />
           Add Task
         </button>
@@ -70,14 +77,14 @@ function App() {
       </div>
       {tasks.map((task) => (
         <div
-          className=" bg-white  rounded-2xl p-6 flex w-5/6 lg:w-4/6 mt-12 gap-4 lg:gap-0 lg:justify-between lg:items-center flex-col lg:flex-row"
+          className={`${task.completed=== true?" bg-green-100":" bg-white"} bg-white  rounded-2xl p-6 flex w-5/6 lg:w-4/6 mt-12 gap-4 lg:gap-0 lg:justify-between lg:items-center flex-col lg:flex-row`}
           key={task.id}
         >
           <div className="flex items-center gap-4">
-            <button className=" text-neutral-600">
-              <IoMdCheckmarkCircleOutline size={26} />
+            <button className=" text-neutral-600" onClick={()=>toggle(task.id)}>
+              <IoMdCheckmarkCircleOutline className={`${task.completed=== true?" text-green-500":""}`} size={26} />
             </button>
-            <p className=" text-lg font-semibold text-neutral-600 bg-[#ECEEEF] p-2 rounded-xl">
+            <p className={`${task.completed=== true?" bg-green-500":" bg-[#ECEEEF]"} text-lg font-semibold text-neutral-600  p-2 rounded-xl w-20 text-center`}>
               {task.completed ? "Done" : "To-Do"}
             </p>
           </div>
