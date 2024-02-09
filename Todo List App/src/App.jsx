@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AddTaskModal from "./components/AddTaskModel";
 import DeleteTaskModal from "./components/DeleteTaskModal";
+import EditTaskModal from "./components/EditTaskModal";
 import { IoMdAdd, IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { BiEdit } from "react-icons/bi";
 import { FaTrashCan } from "react-icons/fa6";
@@ -8,6 +9,7 @@ function App() {
   const [tasks, setTasks] = useState([]);
   const [showAddModal, setShowAddModal] = useState(false);
   const [delModal, setDelModal] = useState(false);
+  const [editModal, setEditModal] = useState(false);
   // local storage setup
   useEffect(() => {
     try {
@@ -39,6 +41,13 @@ function App() {
   const deleteTask = (id) => {
     setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
     setDelModal(false);
+  };
+
+  const editTask = (id, editedTask) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) => (task.id === id ? editedTask : task))
+    );
+    setEditModal(false);
   };
   return (
     <div className=" bg-[#F0F2F5] flex flex-col items-center w-screen min-h-screen">
@@ -93,9 +102,16 @@ function App() {
             </p>
           </div>
           <div className="flex gap-4">
-            <button className=" text-green-500">
+            <button className=" text-green-500" onClick={() => setEditModal(true)}>
               <BiEdit size={26} />
             </button>
+            {editModal && (
+                  <EditTaskModal
+                    onEditTask={editTask}
+                    onCancel={() => setEditModal(false)}
+                    task={task}
+                  />
+                )}
             <button className=" text-red-500" onClick={() => setDelModal(true)}>
               <FaTrashCan size={22} />
             </button>
