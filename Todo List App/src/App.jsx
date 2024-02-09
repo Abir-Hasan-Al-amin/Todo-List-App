@@ -79,9 +79,9 @@ function App() {
           />
         )}
       </div>
-      <div  className="flex w-5/6 lg:w-4/6 mt-12 justify-between">
-          <h1>Total Tasks:{tasks.length}</h1>
-          <h1>Completed Task:{tasks.filter(task => task.completed).length}</h1>
+      <div  className="flex w-5/6 lg:w-3/6 mt-12 justify-between">
+          <h1 className=" font-semibold md:text-xl text-red-400">Total Tasks : {tasks.length}</h1>
+          <h1 className=" font-semibold md:text-xl text-green-400">Completed Tasks : {tasks.filter(task => task.completed).length}</h1>
       </div>
       <div className="flex flex-col lg:flex-row w-5/6 lg:w-4/6 mt-12 justify-center items-center gap-6">
         <h1 className="text-xl font-semibold text-neutral-600">Filter by Priority:</h1>
