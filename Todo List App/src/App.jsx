@@ -10,6 +10,7 @@ function App() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [delModal, setDelModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
+  const [filterPriority, setFilterPriority] = useState('All');
   // local storage setup
   useEffect(() => {
     try {
@@ -57,6 +58,7 @@ function App() {
       )
     );
   };
+
   return (
     <div className=" bg-[#F0F2F5] flex flex-col items-center w-screen min-h-screen">
       <div className="flex w-5/6 lg:w-4/6 mt-12 justify-between">
@@ -75,7 +77,54 @@ function App() {
           />
         )}
       </div>
-      {tasks.map((task) => (
+      <div className="flex flex-col lg:flex-row w-5/6 lg:w-4/6 mt-12 justify-center items-center gap-6">
+        <label className="text-xl font-semibold text-neutral-600">Filter by Priority:</label>
+        <div>
+            <ul className="flex justify-center gap-8 flex-wrap md:gap-2 font-semibold">
+              <li
+              className={`w-24 text-center border border-gray-400 p-2 px-3 rounded-md cursor-pointer ${
+                filterPriority === "All"
+                  ? " bg-gray-400 text-white"
+                  : " text-gray-400"
+              }`}
+              onClick={() => setFilterPriority("All")}
+            >
+              All
+            </li>
+            <li
+              className={`w-24 text-center border border-green-400 p-2 px-3 rounded-md cursor-pointer ${
+                filterPriority === "Low"
+                  ? " bg-green-400 text-white"
+                  : " text-green-400"
+              }`}
+              onClick={() => setFilterPriority("Low")}
+            >
+              Low
+            </li>
+            <li
+              className={`w-24 text-center border border-yellow-500 p-2 px-3 rounded-md cursor-pointer ${
+                filterPriority === "Medium"
+                  ? " bg-yellow-500 text-white"
+                  : " text-yellow-500"
+              }`}
+              onClick={() => setFilterPriority("Medium")}
+            >
+              Medium
+            </li>
+            <li
+              className={`w-24 text-center border border-red-500 p-2 px-3 rounded-md cursor-pointer ${
+                filterPriority === "High"
+                  ? "bg-red-500 text-white"
+                  : " text-red-500"
+              }`}
+              onClick={() => setFilterPriority("High")}
+            >
+              High
+            </li>
+          </ul>
+      </div>
+  </div>
+      {tasks.filter((task) =>filterPriority === 'All' ? true : task.priority === filterPriority).map((task) => (
         <div
           className={`${task.completed=== true?" bg-green-100":" bg-white"} bg-white  rounded-2xl p-6 flex w-5/6 lg:w-4/6 mt-12 gap-4 lg:gap-0 lg:justify-between lg:items-center flex-col lg:flex-row`}
           key={task.id}
